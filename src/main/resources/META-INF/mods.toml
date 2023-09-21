@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+# issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
+[[mods]]
+modId="hungrychests"
+version="${file.jarVersion}"
+displayName="Hungry Chests"
+# logoFile="hungrychests.png"
+authors="ChiefArug"
+displayTest="MATCH_VERSION"
+description='''Loot is too easy to get. This mod solves that problem! 
+Better watch out for those teeth!'''
+
+[[dependencies.hungrychests]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.1.3,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.hungrychests]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
