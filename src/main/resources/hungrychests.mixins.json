@@ -3,7 +3,9 @@
   "package": "chiefarug.mods.hungrychests.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "hungrychests.refmap.json",
-  "mixins": [],
-  "client": [],
+  "mixins": [
+    "HungrierChesitifier",
+    "HungryChestifier"
+  ],
   "minVersion": "0.8.5"
 }

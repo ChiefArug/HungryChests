@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hungrychests:block/hungry_chest"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "processors": [
+    {
+      "processor_type": "hungrychests:hungry_chestifier",
+      "location_predicate": {
+        "predicate_type": "minecraft:always_true"
+      },
+      "input_predicate": {
+        "predicate_type": "minecraft:random_block_match",
+        "block": "minecraft:chest",
+        "probability": 0.5
+      },
+      "output_state": {
+        "Name": "hungrychests:hungry_chest"
+      },
+      "copy_properties": true,
+      "block_entity_modifier": {
+        "type": "minecraft:passthrough"
+      }
+    }
+  ]
+}
