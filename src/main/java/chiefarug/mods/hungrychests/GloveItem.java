@@ -15,7 +15,7 @@ public class GloveItem extends Item {
 	}
 
 	public static final Multimap<Attribute, AttributeModifier> DEFAULT_ATTRIBUTES = ImmutableMultimap.of(
-			BLOCK_REACH.get(), new AttributeModifier("padded glove", -1, AttributeModifier.Operation.ADDITION)
+			BLOCK_REACH.get(), new AttributeModifier("padded glove", -2, AttributeModifier.Operation.ADDITION)
 	);
 	@Override
 	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {

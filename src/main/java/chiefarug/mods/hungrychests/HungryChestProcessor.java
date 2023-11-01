@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.levelgen.structure.templatesystem.PosAlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.PosRuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -52,11 +53,16 @@ public class HungryChestProcessor extends StructureProcessor {
 
 	@Nullable
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"}) // i hate generics
 	public StructureTemplate.StructureBlockInfo process(LevelReader level, BlockPos offset, BlockPos pos, StructureTemplate.StructureBlockInfo blockInfo, StructureTemplate.StructureBlockInfo relativeBlockInfo, StructurePlaceSettings settings, @Nullable StructureTemplate template) {
 		RandomSource random = RandomSource.create(Mth.getSeed(relativeBlockInfo.pos()));
 		BlockState blockstate = level.getBlockState(relativeBlockInfo.pos());
 
 		if (input.test(relativeBlockInfo.state(), random) && location.test(blockstate, random) && position.test(pos, blockInfo.pos(), relativeBlockInfo.pos(), random)) {
+			BlockState output = this.output;
+			if (copyProperties) for (Property property : relativeBlockInfo.state().getProperties()) {
+				output.trySetValue(property,  relativeBlockInfo.state().getValue(property));
+			}
 			return new StructureTemplate.StructureBlockInfo(relativeBlockInfo.pos(), output, beModifier.apply(random, relativeBlockInfo.nbt()));
 		}
 
