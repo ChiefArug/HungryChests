@@ -24,6 +24,6 @@ public class HungryChestBlockEntity extends ChestBlockEntity {
 
 	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory player) {
-		return HungryChestMenu.threeRows(id, player);
+		return HungryChestMenu.threeRows(id, player, this);
 	}
 }

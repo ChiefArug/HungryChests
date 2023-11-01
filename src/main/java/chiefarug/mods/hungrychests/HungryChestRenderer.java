@@ -21,8 +21,6 @@ public class HungryChestRenderer<T extends BlockEntity & LidBlockEntity> extends
 		super(pContext);
 	}
 
-
-
 	@Override
 	protected Material getMaterial(T blockEntity, ChestType chestType) {
 		return switch (chestType) {
