@@ -4,8 +4,10 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.flag.FeatureFlags;
@@ -108,10 +110,10 @@ public class HungryChests {
 	}
 
 	private static final ResourceLocation processorLocation = MODRL.withPath("hungry_chestifier");
-	public static StructureProcessorList chestHungrifier;
+	public static Holder<StructureProcessorList> chestHungrifier;
 
 	private static void serverStart(ServerStartedEvent event) {
-		chestHungrifier = event.getServer().registryAccess().registry(Registries.PROCESSOR_LIST).get().get(processorLocation);
+		chestHungrifier = event.getServer().registryAccess().registry(Registries.PROCESSOR_LIST).get().getHolderOrThrow(ResourceKey.create(Registries.PROCESSOR_LIST, processorLocation));
 	}
 
 	private static void playerTick(TickEvent.PlayerTickEvent event) {

@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,16 +23,6 @@ import java.util.function.Supplier;
 public class HungryChestBlock extends ChestBlock {
 	public HungryChestBlock(Properties pProperties, Supplier<BlockEntityType<? extends ChestBlockEntity>> pBlockEntityType) {
 		super(pProperties, pBlockEntityType);
-	}
-
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level _level, BlockState _state, BlockEntityType<T> _blockEntityType) {
-//		if (_blockEntityType == HungryChests.HUNGRY_CHEST_BLOCK_ENTITY.get())
-//			return (Level level, BlockPos pPos, BlockState state, HungryChestBlockEntity blockEntity) -> {
-//				if (blockEntity)
-//			}
-		return null;
 	}
 
 	@Override // mojang, why
