@@ -28,7 +28,7 @@ public abstract class HungryChestifier {
 		}
 
 		StructurePlaceSettings placeSettings = cir.getReturnValue();
-		for (StructureProcessor structureProcessor : chestHungrifier.list()) {
+		for (StructureProcessor structureProcessor : chestHungrifier.get().list()) {
 			placeSettings.addProcessor(structureProcessor);
 		}
 
