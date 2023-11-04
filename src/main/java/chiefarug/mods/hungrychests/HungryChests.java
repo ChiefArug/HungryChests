@@ -26,7 +26,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -112,7 +112,7 @@ public class HungryChests {
 	private static final ResourceLocation processorLocation = MODRL.withPath("hungry_chestifier");
 	public static Holder<StructureProcessorList> chestHungrifier;
 
-	private static void serverStart(ServerStartedEvent event) {
+	private static void serverStart(ServerAboutToStartEvent event) {
 		chestHungrifier = event.getServer().registryAccess().registry(Registries.PROCESSOR_LIST).get().getHolderOrThrow(ResourceKey.create(Registries.PROCESSOR_LIST, processorLocation));
 	}
 

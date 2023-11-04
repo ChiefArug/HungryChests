@@ -23,7 +23,8 @@ public abstract class HungryChestifier {
 		if (!HungryChestsConfig.forceToApplyToAllStructures.get()) return;
 
 		if (chestHungrifier == null) {
-			LGGR.warn("Tried to process a structure to add a hungry chest before the server has started. This should be impossible! Structure piece: {}", this);
+//			HungryChests.getChestHungrifier();
+			LGGR.warn("Tried to process a structure to add a hungry chest before the server has tried to start. This should be impossible! Structure piece: {}", this);
 			return;
 		}
 
@@ -32,6 +33,7 @@ public abstract class HungryChestifier {
 			placeSettings.addProcessor(structureProcessor);
 		}
 
- 		LGGR.debug("Hungry Chests modified {} structure piece at {}", this, pBoundingBox);
+		// DEBUG
+// 		LGGR.debug("Hungry Chests modified {} structure piece at {}", this, pBoundingBox);
 	}
 }
