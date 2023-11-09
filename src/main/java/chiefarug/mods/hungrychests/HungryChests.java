@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -74,7 +73,7 @@ public class HungryChests {
 
 	public static final RegistryObject<Block> HUNGRY_CHEST = BLOCK.register("hungry_chest", () -> new HungryChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST), HungryChests::blockEntity));
 	public static final RegistryObject<BlockEntityType<? extends ChestBlockEntity>> HUNGRY_CHEST_BLOCK_ENTITY = BLOCK_ENTITY.register("hungry_chest", () -> BlockEntityType.Builder.of(HungryChestBlockEntity::new, HUNGRY_CHEST.get()).build(null));
-	public static final RegistryObject<Item> HUNGRY_CHEST_ITEM = ITEMS.register("hungry_chest", () -> new BlockItem(HUNGRY_CHEST.get(), new Item.Properties()));
+	public static final RegistryObject<Item> HUNGRY_CHEST_ITEM = ITEMS.register("hungry_chest", () -> new HungryChestBlockItem(HUNGRY_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<Item> PADDED_GLOVE = ITEMS.register("padded_glove", () -> new GloveItem(new Item.Properties().stacksTo(1)));
 
 
