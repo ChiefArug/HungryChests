@@ -1,0 +1,20 @@
+{
+  "block.hungry_chest.chomp": {
+    "sounds": [
+      "hungrychests:block/hungry_chomp",
+      {
+        "name": "hungrychests:block/hungry_chomp",
+        "pitch": 0.8
+      },
+            {
+        "name": "hungrychests:block/hungry_chomp",
+        "pitch": 0.65, "tempo": 1.1
+      },
+      {
+        "name": "hungrychests:block/hungry_chomp",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitle.hungry_chest.chomp"
+  }
+}

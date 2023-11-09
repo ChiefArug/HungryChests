@@ -1,4 +1,5 @@
 {
   "block.hungrychests.hungry_chest": "Hungry Chest",
-  "item.hungrychests.padded_glove": "Padded Glove"
+  "item.hungrychests.padded_glove": "Padded Glove",
+  "subtitle.hungry_chest.chomp": "Hungry Chest chomps"
 }

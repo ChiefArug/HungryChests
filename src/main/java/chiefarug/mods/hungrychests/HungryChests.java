@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -56,6 +57,7 @@ public class HungryChests {
 		ITEMS.register((modBus));
 		STRUCTURE_PROCESSORS.register(modBus);
 		MENUS.register(modBus);
+		SOUNDS.register(modBus);
 
 		modBus.addListener(HungryChests::buildCreativeTab);
 		modBus.addListener(HungryChests::clientSetup);
@@ -70,12 +72,13 @@ public class HungryChests {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 	public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSORS = DeferredRegister.create(BuiltInRegistries.STRUCTURE_PROCESSOR.key(), MODID);
 	public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
+	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID);
 
 	public static final RegistryObject<Block> HUNGRY_CHEST = BLOCK.register("hungry_chest", () -> new HungryChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST), HungryChests::blockEntity));
 	public static final RegistryObject<BlockEntityType<? extends ChestBlockEntity>> HUNGRY_CHEST_BLOCK_ENTITY = BLOCK_ENTITY.register("hungry_chest", () -> BlockEntityType.Builder.of(HungryChestBlockEntity::new, HUNGRY_CHEST.get()).build(null));
 	public static final RegistryObject<Item> HUNGRY_CHEST_ITEM = ITEMS.register("hungry_chest", () -> new HungryChestBlockItem(HUNGRY_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<Item> PADDED_GLOVE = ITEMS.register("padded_glove", () -> new GloveItem(new Item.Properties().stacksTo(1)));
-
+	public static final RegistryObject<SoundEvent> HUNGRY_CHOMP = SOUNDS.register("hungry_chomp", () -> SoundEvent.createFixedRangeEvent(MODRL.withPath("block.hungry_chest.chomp"), 12));
 
 
 	public static final RegistryObject<StructureProcessorType<HungryChestProcessor>> HUNGRY_CHESTIFIER = STRUCTURE_PROCESSORS.register("hungry_chestifier", () -> () -> HungryChestProcessor.CODEC);
@@ -116,15 +119,15 @@ public class HungryChests {
 	}
 
 	private static void playerTick(TickEvent.PlayerTickEvent event) {
-		if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START && event.player.hasContainerOpen() && event.player.containerMenu instanceof HungryChestMenu) {
-			HungryChestBlockEntity.tryHurtPlayer((ServerPlayer) event.player);
+		if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START && event.player.hasContainerOpen() && event.player.containerMenu instanceof HungryChestMenu menu) {
+			HungryChestBlockEntity.tryHurtPlayer(menu.blockEntity, (ServerPlayer) event.player);
 		}
 	}
 
 	private static void playerMine(PlayerEvent.BreakSpeed event) {
 		if (event.getState().is(HUNGRY_CHEST.get())) {
 			if (event.getEntity() instanceof ServerPlayer player)
-				HungryChestBlockEntity.tryHurtPlayer(player);
+				HungryChestBlockEntity.tryHurtPlayer(event.getPosition().isPresent() ? event.getEntity().level().getBlockEntity(event.getPosition().get()) : null, player);
 			event.setNewSpeed(event.getNewSpeed() / 10);
 		}
 	}
