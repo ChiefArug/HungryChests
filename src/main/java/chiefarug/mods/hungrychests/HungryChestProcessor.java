@@ -3,8 +3,10 @@ package chiefarug.mods.hungrychests;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -54,18 +56,25 @@ public class HungryChestProcessor extends StructureProcessor {
 	@Nullable
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"}) // i hate generics
-	public StructureTemplate.StructureBlockInfo process(LevelReader level, BlockPos offset, BlockPos pos, StructureTemplate.StructureBlockInfo blockInfo, StructureTemplate.StructureBlockInfo relativeBlockInfo, StructurePlaceSettings settings, @Nullable StructureTemplate template) {
-		RandomSource random = RandomSource.create(Mth.getSeed(relativeBlockInfo.pos()));
-		BlockState blockstate = level.getBlockState(relativeBlockInfo.pos());
+	public StructureTemplate.StructureBlockInfo process(LevelReader level, BlockPos offset, BlockPos pos, StructureTemplate.StructureBlockInfo blockInfoStructure, StructureTemplate.StructureBlockInfo blockInfoWorld, StructurePlaceSettings settings, @Nullable StructureTemplate template) {
 
-		if (input.test(relativeBlockInfo.state(), random) && location.test(blockstate, random) && position.test(pos, blockInfo.pos(), relativeBlockInfo.pos(), random)) {
-			BlockState output = this.output;
-			if (copyProperties) for (Property property : relativeBlockInfo.state().getProperties()) {
-				output.trySetValue(property,  relativeBlockInfo.state().getValue(property));
-			}
-			return new StructureTemplate.StructureBlockInfo(relativeBlockInfo.pos(), output, beModifier.apply(random, relativeBlockInfo.nbt()));
+		// Hopefully fix a crash caused by massive structures. Thanks TelepathicGrunt
+		if (level instanceof WorldGenRegion worldGenRegion && !worldGenRegion.getCenter().equals(new ChunkPos(blockInfoWorld.pos()))) {
+			return blockInfoWorld;
 		}
 
-		return relativeBlockInfo;
+		RandomSource random = RandomSource.create(Mth.getSeed(blockInfoWorld.pos()));
+		BlockState blockstate = level.getBlockState(blockInfoWorld.pos());
+
+
+		if (input.test(blockInfoWorld.state(), random) && location.test(blockstate, random) && position.test(pos, blockInfoStructure.pos(), blockInfoWorld.pos(), random)) {
+			BlockState output = this.output;
+			if (copyProperties) for (Property property : blockInfoWorld.state().getProperties()) {
+				output.trySetValue(property, blockInfoWorld.state().getValue(property));
+			}
+			return new StructureTemplate.StructureBlockInfo(blockInfoWorld.pos(), output, beModifier.apply(random, blockInfoWorld.nbt()));
+		}
+
+		return blockInfoWorld;
 	}
 }
